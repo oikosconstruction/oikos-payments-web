@@ -46,19 +46,28 @@
     data.status = draft ? 'DRAFT' : 'PENDING';
 
     try {
-      if (!draft && window.OIKOS_CONFIG.powerAutomateUrl) {
+      if (!draft) {
         data.attachmentBase64 = await fileToBase64($('attachment').files[0]);
-        const res = await fetch(window.OIKOS_CONFIG.powerAutomateUrl, {
-          method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)
+        const endpoint = window.OIKOS_CONFIG.apiEndpoint || '/api/submit-payment';
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(data)
         });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const result = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(result.error || `HTTP ${res.status}`);
         data.status = 'SUBMITTED';
-      } else if (!draft && !window.OIKOS_CONFIG.demoMode) {
-        throw new Error('Δεν έχει οριστεί σύνδεση SharePoint / Power Automate.');
       }
 
       persistLocal(data);
-      showMessage(draft ? 'Το πρόχειρο αποθηκεύτηκε.' : (data.urgent ? 'Η επείγουσα πληρωμή καταχωρήθηκε σε λειτουργία δοκιμής.' : 'Η πληρωμή καταχωρήθηκε σε λειτουργία δοκιμής.'), 'ok');
+      showMessage(
+        draft
+          ? 'Το πρόχειρο αποθηκεύτηκε.'
+          : (data.urgent
+              ? 'Η επείγουσα πληρωμή υποβλήθηκε επιτυχώς.'
+              : 'Η πληρωμή υποβλήθηκε επιτυχώς.'),
+        'ok'
+      );
       if (!draft) resetForm();
     } catch (err) {
       showMessage(`Αποτυχία καταχώρησης: ${err.message}`, 'err');
