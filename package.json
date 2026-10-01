@@ -1,0 +1,9 @@
+{
+  "name": "oikos-payments-web",
+  "private": true,
+  "type": "module",
+  "version": "1.1.0",
+  "dependencies": {
+    "exceljs": "^4.4.0"
+  }
+}
