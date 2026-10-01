@@ -27,6 +27,7 @@
       amount: Number($('amount').value || 0),
       paymentDate: $('paymentDate').value,
       description: $('description').value.trim(),
+      workCode: $('workCode').value.trim(),
       ibanRf: $('ibanRf').value.trim(),
       bank: $('bank').value.trim(),
       documentNo: $('documentNo').value.trim(),
@@ -105,7 +106,7 @@
 
   function exportCsv() {
     const arr = JSON.parse(localStorage.getItem(storageKey) || '[]');
-    const cols = ['createdAt','requestId','project','beneficiary','amount','paymentDate','description','ibanRf','bank','documentNo','urgent','status','attachmentName','notes'];
+    const cols = ['createdAt','requestId','project','beneficiary','amount','paymentDate','description','workCode','ibanRf','bank','documentNo','urgent','status','attachmentName','notes'];
     const rows = [cols.join(';'), ...arr.map(x => cols.map(c => csv(x[c])).join(';'))];
     const blob = new Blob(['\ufeff'+rows.join('\n')], {type:'text/csv;charset=utf-8'});
     const a = document.createElement('a');
