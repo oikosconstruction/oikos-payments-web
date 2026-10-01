@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#477374" />
+  <title>OIKOS Payments</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="brand">OIKOS</div>
+      <div class="subtitle">Construction Payments</div>
+    </div>
+    <div class="top-actions">
+      <button id="newBtn" class="btn ghost">Νέα πληρωμή</button>
+      <button id="historyBtn" class="btn ghost">Ιστορικό</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="card" id="formCard">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">ΝΕΑ ΚΑΤΑΧΩΡΗΣΗ</div>
+          <h1>Πληρωμή έργου</h1>
+        </div>
+        <label class="urgent-toggle">
+          <input type="checkbox" id="urgent" />
+          <span>ΕΠΕΙΓΟΝ</span>
+        </label>
+      </div>
+
+      <form id="paymentForm">
+        <div class="grid two">
+          <label>Έργο
+            <input id="project" name="project" list="projects" required placeholder="π.χ. AZURE WAVES" />
+            <datalist id="projects">
+              <option value="AZURE WAVES"></option>
+              <option value="AMARIS"></option>
+              <option value="ΕΥΤΥΧΙΑΣ 4"></option>
+              <option value="THERMAE VIEW RESIDENCES"></option>
+              <option value="GROVE RESIDENCES"></option>
+            </datalist>
+          </label>
+          <label>Δικαιούχος / Προμηθευτής
+            <input id="beneficiary" name="beneficiary" required placeholder="Επωνυμία ή ονοματεπώνυμο" />
+          </label>
+        </div>
+
+        <div class="grid two">
+          <label>Ποσό (€)
+            <input id="amount" name="amount" type="number" step="0.01" min="0" required placeholder="0,00" />
+          </label>
+          <label>Ημερομηνία πληρωμής
+            <input id="paymentDate" name="paymentDate" type="date" required />
+          </label>
+        </div>
+
+        <label>Αιτιολογία / Περιγραφή
+          <textarea id="description" name="description" rows="3" required placeholder="Τι αφορά η πληρωμή"></textarea>
+        </label>
+
+        <div class="grid three">
+          <label>IBAN / RF
+            <input id="ibanRf" name="ibanRf" placeholder="IBAN ή RF κωδικός" />
+          </label>
+          <label>Τράπεζα
+            <input id="bank" name="bank" placeholder="Τράπεζα" />
+          </label>
+          <label>Παραστατικό
+            <input id="documentNo" name="documentNo" placeholder="Αρ. τιμολογίου / πιστοποίησης" />
+          </label>
+        </div>
+
+        <label class="file-box">Επισύναψη παραστατικού
+          <input id="attachment" name="attachment" type="file" accept=".pdf,.jpg,.jpeg,.png,.xlsx,.docx" />
+          <span id="fileLabel">Επιλογή αρχείου</span>
+        </label>
+
+        <label>Παρατηρήσεις
+          <textarea id="notes" name="notes" rows="2" placeholder="Προαιρετικές παρατηρήσεις"></textarea>
+        </label>
+
+        <div class="actions">
+          <button type="button" id="saveDraftBtn" class="btn secondary">Αποθήκευση πρόχειρου</button>
+          <button type="submit" class="btn primary" id="submitBtn">Καταχώρηση</button>
+        </div>
+      </form>
+      <div id="message" class="message" aria-live="polite"></div>
+    </section>
+
+    <section class="card hidden" id="historyCard">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">ΚΑΤΑΧΩΡΗΣΕΙΣ</div>
+          <h2>Πρόσφατες πληρωμές</h2>
+        </div>
+        <button class="btn ghost-dark" id="exportBtn">Εξαγωγή CSV</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Ημερομηνία</th><th>Έργο</th><th>Δικαιούχος</th><th>Ποσό</th><th>Κατάσταση</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="historyBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
